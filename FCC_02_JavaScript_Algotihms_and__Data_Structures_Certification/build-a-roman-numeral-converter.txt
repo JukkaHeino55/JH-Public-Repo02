@@ -1,0 +1,86 @@
+** start of undefined **
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ROMAN NUMERAL CONVERTER</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>
+      ROMAN NUMERAL <br />
+      CONVERTER
+    </h1>
+    <section class="input-container">
+      <label for="number-input">Enter a number:</label>
+      <input
+        value=""
+        type="number"
+        name="decimal number input"
+        id="number"
+        class="number-input"
+      />
+      <button class="convert-btn" id="convert-btn">Convert</button>
+    </section>
+    <section class="output-container">
+      <div id="output"></div>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>
+
+** end of undefined **
+
+** start of undefined **
+
+const inputNumber = document.getElementById("number");
+const convertBtn = document.getElementById("convert-btn");
+const output = document.getElementById("output");
+convertBtn.addEventListener("click",()=>{
+  if (inputNumber.value === "") {
+    output.innerText = "Please enter a valid number";
+    return;
+  }
+  if (parseInt(inputNumber.value) < 0) {
+    output.innerText = "Please enter a number greater than or equal to 1";
+    return;
+  }
+  if (parseInt(inputNumber.value) >= 4000) {
+    output.innerText = "Please enter a number less than or equal to 3999";
+    return;
+  }
+  if (parseInt(inputNumber.value) === 9) {
+    output.innerText = "IX";
+    return;
+  }
+  let num = parseInt(inputNumber.value);
+  let romanNum = "";
+  while (num !== 0) {
+    if (num >= 1000) { romanNum += "M"; num -= 1000; continue; }
+    if (num >= 900) { romanNum += "CM"; num -= 900; continue; }
+    if (num >= 500) { romanNum += "D"; num -= 500; continue; }
+    if (num >= 400) { romanNum += "CD"; num -= 400; continue; }
+    if (num >= 100) { romanNum += "C"; num -= 100; continue; }
+    if (num >= 90) { romanNum += "XC"; num -= 90; continue; }
+    if (num >= 50) { romanNum += "L"; num -= 50; continue; }
+    if (num >= 40) { romanNum += "XL"; num -= 40; continue; }
+    if (num >= 10) { romanNum += "X"; num -= 10; continue; }
+    if (num >= 9) { romanNum += "IX"; num -= 9; continue; }
+    if (num >= 5) { romanNum += "V"; num -= 5; continue; }
+    if (num >= 4) { romanNum += "IV"; num -= 4; continue; }
+    if (num >= 0) { romanNum += "I"; num -= 1; continue; }
+  }
+  output.innerText = romanNum;
+});
+
+** end of undefined **
+
+** start of undefined **
+
+
+
+** end of undefined **
+

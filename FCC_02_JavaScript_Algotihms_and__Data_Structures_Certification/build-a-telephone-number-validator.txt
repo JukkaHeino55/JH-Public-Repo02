@@ -1,0 +1,83 @@
+** start of undefined **
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Telephone Number Validator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="main-text">
+      <h1 class="title">Telephone Number Validator</h1>
+      <p class="description">
+        Enter a phone number
+      </p>
+    </header>
+
+    <main>
+      <input
+        value=""
+        type="text"
+        name="decimal number input"
+        id="user-input"
+        class="number-input"
+      />
+      <p></p>
+      <p id="results-div"></p>
+
+      <button class="btn" id="check-btn" type="button">
+        Check
+      </button>
+      <button class="btn" id="clear-btn" type="button">
+        Clear
+      </button>      
+    </main>
+    <script src="./script.js"></script>
+  </body>
+</html>
+
+** end of undefined **
+
+** start of undefined **
+
+console.log("started")
+const userInput = document.getElementById("user-input");
+const checkButton = document.getElementById("check-btn");
+const clearButton = document.getElementById("clear-btn");
+const results = document.getElementById("results-div");
+
+checkButton.addEventListener("click",()=>{
+  if (userInput.value == "") {
+    alert("Please provide a phone number");
+    return;
+  }
+ 
+const regex1 = /^1?[ ]?[0-9]{3}[ -]?[0-9]{3}[ -]?[0-9]{4}$/;
+const regex2 = /^1?[ ]?[(][0-9]{3}[)][ -]?[0-9]{3}[ -]?[0-9]{4}$/;
+
+  if (regex1.test(userInput.value)||regex2.test(userInput.value)) {
+  results.innerText = `Valid US number: ${userInput.value}`;
+  } else {
+  results.innerText = `Invalid US number: ${userInput.value}`;
+
+  }
+
+  console.log("clicked")
+  //alert("Clicked")
+  return
+});
+clearButton.addEventListener("click", ()=>{
+  results.innerText = "";
+})
+
+** end of undefined **
+
+** start of undefined **
+
+
+
+** end of undefined **
+

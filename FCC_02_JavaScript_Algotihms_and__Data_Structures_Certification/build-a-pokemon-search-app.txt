@@ -1,0 +1,188 @@
+** start of undefined **
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokémon search page</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <h1 class="title">Pokémon search page</h1>
+
+    <main>
+      <div id="container"></div>
+      <input id="search-input" required></input>
+      <button class="btn" id="search-button">Search</button>
+      <p></p>
+      <p><span id="pokemon-name">Pokémon name</span>&nbsp;&nbsp;&nbsp;<span id="pokemon-id">id</span></p>
+      <p><span id="weight">weight</span>
+         <span id="height">height</span></p>
+      <p><span id="types">Types:</span></p>
+      <div id="picture"></div>
+      <hr></hr>
+      <p><span id="hp">HP:</span></p>
+      <p><span id="attack">Attack:</span></p>
+      <p><span id="defense">Defense:</span></p>
+      <p><span id="special-attack">Sp. Attack:</span></p>
+      <p><span id="special-defense">Sp. Defense:</span></p>
+      <p><span id="speed">Speed:</span></p>
+
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
+
+** end of undefined **
+
+** start of undefined **
+
+const pokemonAPI = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/";
+
+const searchInput = document.getElementById("search-input");
+const searchBtn = document.getElementById("search-button");
+
+const el_pokemonName = document.getElementById("pokemon-name");
+const el_pokemonId = document.getElementById("pokemon-id");
+const el_weight = document.getElementById("weight");
+const el_height = document.getElementById("height");
+const el_types = document.getElementById("types");
+const el_hp = document.getElementById("hp");
+const el_attack = document.getElementById("attack");
+const el_defense = document.getElementById("defense");
+const el_specialAttack = document.getElementById("special-attack");
+const el_specialDefense = document.getElementById("special-defense");
+const el_speed = document.getElementById("speed");
+const el_picture = document.getElementById("picture");
+
+const updatePokemonData = (data) => {
+  const {name, id, height, weight, stats, sprites, types} = data;
+
+  alert(types);
+
+  el_pokemonName.innerText = name.toUpperCase();
+  el_pokemonId.innerText = id;
+  el_height.innerText = height;
+  el_weight.innerText = weight;
+  el_hp.innerText = stats[0].base_stat;
+  el_attack.innerText = stats[1].base_stat;
+  el_defense.innerText = stats[2].base_stat;
+  el_specialAttack.innerText = stats[3].base_stat;
+  el_specialDefense.innerText = stats[4].base_stat;
+  el_speed.innerText = stats[5].base_stat;
+
+  const itemToRemove = document.getElementById('sprite');
+  if (itemToRemove) {
+    itemToRemove.remove();
+  }
+  let img = document.createElement("img");
+  img.src = sprites.front_default;
+  img.id = "sprite";
+  document.getElementById('picture').appendChild(img);
+  el_types.innerHTML = types.map(type => `<span>${type.type.name.toUpperCase()}</span>`).join();
+}
+
+const searchPokemon = async () => {
+
+  const api = pokemonAPI + searchInput.value.toLowerCase();
+  // alert(api);
+  try {
+    const res = await fetch(api);
+    const data = await res.json();
+    console.log(data);
+    updatePokemonData(data);
+  } catch (err) {
+    console.log(err);
+    alert("Pokémon not found");
+  }
+}
+
+searchBtn.addEventListener("click",searchPokemon);
+
+** end of undefined **
+
+** start of undefined **
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-bg-color: #1b1b32;
+  --light-grey: #f5f6f7;
+  --dark-purple: #5a01a7;
+  --golden-yellow: #feac32;
+}
+
+body {
+  background-color: var(--main-bg-color);
+  text-align: center;
+}
+
+.title {
+  color: var(--light-grey);
+  margin: 20px 0;
+}
+
+p {
+  color: var(--light-grey);
+  margin: 15px 0;
+}
+
+#author-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.user-card {
+  border-radius: 15px;
+  width: 300px;
+  height: 350px;
+  background-color: var(--light-grey);
+  margin: 20px;
+}
+
+.user-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.purple-divider {
+  background-color: var(--dark-purple);
+  width: 100%;
+  height: 15px;
+}
+
+.author-name {
+  margin: 10px;
+}
+
+.bio {
+  margin: 20px;
+}
+
+.error-msg {
+  color: var(--light-grey);
+}
+
+.btn {
+  cursor: pointer;
+  width: 200px;
+  margin: 10px;
+  color: var(--main-bg-color);
+  font-size: 14px;
+  background-color: var(--golden-yellow);
+  background-image: linear-gradient(#fecc4c, #ffac33);
+  border-color: var(--golden-yellow);
+  border-width: 3px;
+}
+
+** end of undefined **
+

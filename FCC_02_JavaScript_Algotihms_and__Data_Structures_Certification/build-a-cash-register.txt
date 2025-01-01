@@ -1,0 +1,292 @@
+** start of undefined **
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cash Register Project</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Cash Register Project 2</h1>
+  </header>
+  <main>
+    <div id="status">Status</div>
+<div id="change-due">Palautus</div>    
+    <label for="cash">Enter cash from customer:</label>
+    <p></p>
+    <input type="number" id="cash" class="user-input" value="" />
+    <p></p>
+    <button class="btn" id="purchase-btn" type="button">Purchase</button>
+    <div id="ostos">Ostos</div>
+    <div id="kassa">Kassa</div>
+    
+  </main>
+  <script src="./script.js"></script>
+</body>
+
+</html>
+
+** end of undefined **
+
+** start of undefined **
+
+// let price = 1.87;
+let price = 3.26;
+//let price = 19.50;
+let cid = [
+  ['PENNY', 1.01],
+  ['NICKEL', 2.05],
+  ['DIME', 3.1],
+  ['QUARTER', 4.25],
+  ['ONE', 90],
+  ['FIVE', 55],
+  ['TEN', 20],
+  ['TWENTY', 60],
+  ['ONE HUNDRED', 100]
+];
+const cash = document.getElementById("cash");
+const purchaseBtn = document.getElementById("purchase-btn");
+const changeDue = document.getElementById("change-due");
+const ostos = document.getElementById("ostos");
+const kassa = document.getElementById("kassa");
+purchaseBtn.addEventListener("click",()=>{
+  doPurchase();
+})
+const doPurchase = () => {
+  let stop = false;
+  alert(`Cash1xxx = ${cash.value} Price = ${price}`);
+
+  if (Number(cash.value) < price) {
+    alert("Customer does not have enough money to purchase the item");
+    stop = true;
+  }
+    if (Number(cash.value) === price) {
+    changeDue.innerText = "No change due - customer paid with exact cash";
+    stop = true;
+  }
+  if (!stop) {
+    calculate();
+    alert("NOT STOP");
+  }
+}
+
+const showTotal = () => {
+  ostos.innerText = `Total: $${price}`
+} 
+
+const showCid = () => {
+  let str = "";
+  str += "<b>Change in drawer:</b>";
+  str += "<table>"
+  str += cid.map(([yksikko, maara]) => `<tr><td>${yksikko}</td><td>:</td><td>${maara}</td></tr>`).join('');
+  str += "</table>"
+
+  kassa.innerHTML = str;
+}
+showTotal();
+showCid();
+
+const calculate = () => {
+  let myObj = {
+    cash: 0,
+           // unit, orig amnt, utilized, 
+    table: [[100, 0,0],
+            [20,0,0],
+            [10,0,0],
+            [5,0,0],
+            [1,0,0],
+            [0.25,0,0],
+            [0.10,0,0],
+            [0.05,0,0],
+            [0.01,0,0]],
+  }
+  alert("calculate");
+  alert(JSON.stringify(myObj));
+  let maksu = cash.value - price;
+  myObj.cash = maksu;
+  for (let i = 8; i>=0; i--) {
+    myObj.table[i][1] = cid[-1*(i-8)][1];
+  }
+  alert(JSON.stringify(myObj));
+  alert("DEBUG")
+  for (let i = 0; i < 9; i++) {
+    // alert(`Maksu: ${myObj.cash} ${myObj.table[i][0]}`)
+    if (Number(myObj.cash) >= Number(myObj.table[i][0])) {
+      // alert(myObj.cash);
+      if (Number(myObj.cash) > Number(myObj.table[i][1])) {
+         myObj.table[i][2] = Number(myObj.table[i][1]);
+         myObj.cash -= Number(myObj.table[i][2]).toFixed(2);
+         myObj.table[i][2] = Math.round(myObj.table[i][2] * 100) / 100;
+         myObj.cash = Math.round(myObj.cash * 100) / 100; 
+      } else {
+
+         myObj.table[i][2] = (Math.floor(myObj.cash / myObj.table[i][0])) * myObj.table[i][0];
+         myObj.cash -= Number(myObj.table[i][2]).toFixed(2);
+         myObj.table[i][2] = Math.round(myObj.table[i][2] * 100) / 100;
+         myObj.cash = Math.round(myObj.cash * 100) / 100; 
+      }
+    }
+  }
+  alert(JSON.stringify(myObj));
+  if (Number(myObj.cash === 0.00)) {
+    // Update cid to cid
+    let cidSum = 0;
+    for (let i = 0; i < 9; i++) {
+      if (myObj.table[i][2] > 0) {
+        cid[-1*(i-8)][1] -= Math.round(myObj.table[i][2] * 100) / 100;
+        cid[-1*(i-8)][1] = Math.round(100 * cid[-1*(i-8)][1]) / 100;
+      }
+      cidSum += Math.round(100 * cid[-1*(i-8)][1]) / 100;
+    }
+    let str = "Status: OPEN";
+    if (cidSum === 0) {
+      str = "Status: CLOSED";
+    }
+    for (let i = 0; i < 9; i++) {
+      if (myObj.table[i][2] !== 0) {
+        str += " " + cid[-1*(i-8)][0] + ": $" + myObj.table[i][2];
+      }
+    }
+    changeDue.innerText = str;
+
+    
+    showCid(); 
+  } else {
+    changeDue.innerText = "Status: INSUFFICIENT_FUNDS";
+  }
+}
+
+** end of undefined **
+
+** start of undefined **
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --dark-grey: #1b1b32;
+  --light-grey: #f5f6f7;
+  --black: #000;
+  --white: #fff;
+  --grey: #3b3b4f;
+  --golden-yellow: #fecc4c;
+  --yellow: #ffcc4c;
+  --gold: #feac32;
+  --orange: #ffac33;
+  --dark-orange: #f89808;
+}
+
+body {
+  background-color: var(--dark-grey);
+}
+
+header {
+  color: var(--light-grey);
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 25px 0;
+}
+
+.rules-container {
+  display: none;
+  background-color: var(--light-grey);
+  color: var(--black);
+  width: 50%;
+  margin: 20px auto;
+  height: 300px;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.rules-container ul {
+  list-style-type: none;
+}
+
+.points {
+  margin-top: 15px;
+}
+
+main {
+  background-color: var(--light-grey);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1rem;
+  margin: auto;
+  justify-items: center;
+  width: 50%;
+  border-radius: 10px;
+}
+
+#dice {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.die {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  margin-right: 15px;
+  border: 4px solid var(--black);
+  padding: 10px;
+}
+
+.rounds-text {
+  text-align: center;
+}
+
+input[type="radio"]:disabled + label {
+  color: var(--grey);
+}
+
+#score-history {
+  margin-top: 15px;
+  text-align: center;
+  list-style-position: inside;
+}
+
+.btn {
+  cursor: pointer;
+  width: 200px;
+  margin: 10px 0 10px 0.5rem;
+  color: var(--black);
+  background-color: var(--gold);
+  background-image: linear-gradient(var(--golden-yellow), var(--orange));
+  border-color: var(--gold);
+  border-width: 3px;
+}
+
+.btn:hover:enabled {
+  background-image: linear-gradient(var(--yellow), var(--dark-orange));
+}
+
+@media (max-width: 992px) {
+  main {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .btn {
+    width: 120px;
+  }
+}
+
+
+** end of undefined **
+

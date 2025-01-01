@@ -1,0 +1,93 @@
+** start of undefined **
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Palindrome Checker</title>
+  </head>
+  <body>
+    <main>
+ 
+      <div class="container">
+container 1
+      <h1>Is it a Palindrome?</h1>
+      </div>
+      <div class="container">
+container 2<p>
+      <label for="text-input">Enter in text to check for a palindrome:</label>
+      <input id="text-input"></input>
+      <button id="check-btn">BUTTON</button>
+      <div><span id="result">result</span></div>
+      </div>
+      <div class="container">
+container 3
+      </div>            
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
+
+** end of undefined **
+
+** start of undefined **
+
+const inputText = document.getElementById("text-input");
+const checkBtn = document.getElementById("check-btn");
+const txtResult = document.getElementById("result");
+
+const isAPalindrome = str => {
+  const str1 = str.replace(/[\W_]/g, '').toLowerCase();
+  const arr = [...str1];
+  for (let i = 0; i < arr.length / 2; i++) {
+    if (arr[i] !== arr[arr.length - 1 - i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const buttonPressed = () => {
+  if (inputText.value.length < 1) {
+    alert("Please input a value");
+  }
+  txtResult.innerText = `${inputText.value} is ${(isAPalindrome(inputText.value)?"":" not" )} a palindrome`;
+}
+
+checkBtn.addEventListener("click", buttonPressed);
+
+** end of undefined **
+
+** start of undefined **
+
+:root {
+  --light-grey: #f5f6f7;
+  --dark-blue: #0a0a23;
+  --fcc-blue: #1b1b32;
+  --light-yellow: #fecc4c;
+  --dark-yellow: #feac32;
+  --light-pink: #ffadad;
+  --dark-red: #850000;
+  --light-green: #acd157;
+}
+
+body {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  background-color: var(--fcc-blue);
+  color: var(--light-grey);
+}
+.container {
+  width: 90%;
+  max-width: 680px;
+}
+
+h1 {
+  text-align: center;
+}
+
+
+** end of undefined **
+
